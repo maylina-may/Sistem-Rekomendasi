@@ -11,16 +11,13 @@ Dengan memanfaatkan teknik TF-IDF (Term Frequency–Inverse Document Frequency) 
 ### 🔖 Referensi:
 
 - [1] Sitorus, M.R. (2023) – Implementasi Model-Based Collaborative Filtering pada Sistem Rekomendasi Film.
-
-👉 [Universitas Medan Area Repository](https://repositori.uma.ac.id/jspui/bitstream/123456789/22762/1/188160044%20-%20Muhammad%20Rizky%20Sitorus%20-%20Fulltext.pdf)
+  👉 [Universitas Medan Area Repository](https://repositori.uma.ac.id/jspui/bitstream/123456789/22762/1/188160044%20-%20Muhammad%20Rizky%20Sitorus%20-%20Fulltext.pdf)
 
 - [2] Ridhwanullah, D., dkk. (2024). Content-Based Filtering pada Sistem Rekomendasi Buku Informatika.
-
-👉 https://www.p3m.sinus.ac.id/jurnal/index.php/e-jurnal_SINUS/article/view/840
+  👉 https://www.p3m.sinus.ac.id/jurnal/index.php/e-jurnal_SINUS/article/view/840
 
 - [3] Anonim (2023) – Implementasi Hybrid Recommendation untuk Sistem Rekomendasi Film Netflix.
-
-👉 Universitas Kristen Satya Wacana Repository
+  👉 Universitas Kristen Satya Wacana Repository
 
 ---
 
