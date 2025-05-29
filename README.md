@@ -41,13 +41,13 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 ### 🧠 Solution Approach
 
 - **Content-Based Filtering**
-1. Menggunakan TF-IDF untuk merepresentasikan fitur teks seperti deskripsi, genre, pemeran, dan sutradara.
-2. Mengukur kemiripan antar film/acara TV menggunakan Cosine Similarity.
-3. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
+  1. Menggunakan TF-IDF untuk merepresentasikan fitur teks seperti deskripsi, genre, pemeran, dan sutradara.
+  2. Mengukur kemiripan antar film/acara TV menggunakan Cosine Similarity.
+  3. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
 
 - **Collaborative Filtering (alternatif)**
-1. Dapat dikembangkan menggunakan pendekatan Matrix Factorization seperti SVD, jika data interaksi pengguna tersedia.
-2. Mempersonalisasi rekomendasi berdasarkan pola preferensi pengguna lain yang serupa.
+  1. Dapat dikembangkan menggunakan pendekatan Matrix Factorization seperti SVD, jika data interaksi pengguna tersedia.
+  2. Mempersonalisasi rekomendasi berdasarkan pola preferensi pengguna lain yang serupa.
 
 ---
 
