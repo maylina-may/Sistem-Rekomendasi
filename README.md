@@ -41,20 +41,21 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 ### 🧠 Solution Approach
 
 - **Content-Based Filtering**
-  1. Menggunakan TF-IDF untuk merepresentasikan fitur teks seperti deskripsi, genre, pemeran, dan sutradara.
-  2. Mengukur kemiripan antar film/acara TV menggunakan Cosine Similarity.
-  3. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
+
+1. Menggunakan TF-IDF untuk merepresentasikan fitur teks seperti deskripsi, genre, pemeran, dan sutradara.
+2. Mengukur kemiripan antar film/acara TV menggunakan Cosine Similarity.
+3. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
 
 - **Collaborative Filtering (alternatif)**
-  1. Dapat dikembangkan menggunakan pendekatan Matrix Factorization seperti SVD, jika data interaksi pengguna tersedia.
-  2. Mempersonalisasi rekomendasi berdasarkan pola preferensi pengguna lain yang serupa.
+1. Dapat dikembangkan menggunakan pendekatan Matrix Factorization seperti SVD, jika data interaksi pengguna tersedia.
+2. Mempersonalisasi rekomendasi berdasarkan pola preferensi pengguna lain yang serupa.
 
 ---
 
 ## 🗂️ Data Understanding
 
 - **Sumber Data:** [Kaggle - Film dan Acara TV Netflix](https://www.kaggle.com/datasets/shivamb/netflix-shows)
-- **Jumlah data:**8807 baris × 12 kolom
+- **Jumlah data:** 8807 baris × 12 kolom
 - **Kolom penting:** `title`, `type`, `director`, `cast`, `country`, `date_added`, `release_year`, `rating`, `duration`, `listed_in`, `description`
 - **Missing Values:**
   - `director`: 2634
@@ -67,4 +68,55 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 
 ## 🧹 Data Preparation
 
+- Nilai kosong dihapus dengan `df.dropna()`.
+- Pengecekan ulang missing value menggunakan `df.isna().sum()`.
+- Fitur teks pada kolom `listed_in` diekstrak dan dibobot menggunakan **TF-IDF Vectorizer**.
 
+---
+
+## ⏳ Modeling
+
+- **Representasi Fitur:** Menggunakan `TF-IDF Vectorizer` mengubah genre teks menjadi vektor numerik.
+- **Algoritma Similarity:** Menggunakan `Cosine Similarity` untuk mengukur kemiripan antar konten berdasarkan vektor genre.
+- **Mekanisme Rekomendasi:** Mengambil Top-N konten paling mirip berdasarkan skor similarity untuk rekomendasi.
+
+### 📌 Contoh hasil Rekomendasi untuk `Holiday Rush`:
+
+| No | Title                      | listed_in                        |
+| -- | -------------------------- | -------------------------------- |
+| 1  | Wish Man                   | Children & Family Movies, Dramas |
+| 2  | Big Miracle                | Children & Family Movies, Dramas |
+| 3  | A Champion Heart           | Children & Family Movies, Dramas |
+| 4  | White Fang                 | Children & Family Movies, Dramas |
+| 5  | You Are My Home            | Children & Family Movies, Dramas |
+| 6  | Hachi: A Dog's Tale        | Children & Family Movies, Dramas |
+| 7  | Balto                      | Children & Family Movies, Dramas |
+| 8  | The Karate Kid Part III    | Children & Family Movies, Dramas |
+| 9  | The Indian in the Cupboard | Children & Family Movies, Dramas |
+| 10 | Hugo                       | Children & Family Movies, Dramas |
+
+
+## 🔍 Evaluation 
+
+- **Metode evaluasi:** Precision@k
+- **Hasil:** Dengan threshold kemiripan 0.5, semua 10 rekomendasi teratas untuk `Holiday Rush` dianggap relevan berdasarkan kemiripan genre.
+- **Precision@10:** 100% (nilai Precision@10 yang didapat dari output kode)
+
+---
+
+## 🔥 Kelebihan & Kekurangan
+
+### 👍 Kelebihan:
+
+- Tidak butuh data pengguna (bagus untuk pengguna/item baru).
+- Rekomendasi spesifik berdasarkan item.
+- Penjelasan rekomendasi mudah.
+- Cepat setelah matriks dibuat.
+
+### 👎 Kekurangan:
+- Rekomendasi cenderung mirip, kurang variasi.
+- Butuh deskripsi item yang baik (genre akurat).
+- Item baru tidak langsung direkomendasikan.
+- Skalabilitas terbatas untuk data sangat besar.
+
+---
