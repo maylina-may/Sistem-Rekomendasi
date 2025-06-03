@@ -86,17 +86,13 @@ Dengan memanfaatkan teknik TF-IDF (Term Frequency–Inverse Document Frequency) 
 | `date_added` | 11            | 
 | `rating`     | 4             |
 
-- **Outlier:**
+- **Outlier:** Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak terdapat nilai ekstrem yang mengganggu.
 
-Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak terdapat nilai ekstrem yang mengganggu.
-
-- **Duplikasi:**
-
- Tidak ditemukan duplikasi
+- **Duplikasi:** Tidak ditemukan duplikasi
 
 ### Penggunaan Fitur dalam Modeling
 
-- **Fitur yang Digunakan:**
+**Fitur yang Digunakan:**
 
 `listed_in`: Kolom ini digunakan secara langsung sebagai input ke `TfidfVectorizer`, yang mengubah teks genre menjadi vektor numerik. Matriks TF-IDF inilah yang digunakan dalam perhitungan Cosine Similarity untuk menentukan kemiripan antar konten.
   - Alur Model
@@ -108,7 +104,7 @@ Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak t
     - Matriks hasil transformasi digunakan untuk menghitung Cosine Similarity antar konten.
     - Rekomendasi dihasilkan berdasarkan nilai similarity tertinggi.
 
-- **Fitur yang Tidak Digunakan:**
+**Fitur yang Tidak Digunakan:**
 
 | Fitur              | Alasan Tidak Digunakan                                                            |
 |--------------------|-----------------------------------------------------------------------------------|
