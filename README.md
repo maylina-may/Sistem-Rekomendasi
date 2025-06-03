@@ -61,20 +61,21 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 - **Jumlah data:** 8807 baris × 12 kolom
 
 - **Fitur:**
-  | Fitur          | Tipe Data | Keterangan                                             |
-| -------------- | --------- | ------------------------------------------------------ |
-| `show_id`      | string    | ID unik untuk tiap konten                              |
-| `type`         | string    | Jenis konten: "Movie" atau "TV Show"                   |
-| `title`        | string    | Judul konten                                           |
-| `director`     | string    | Nama sutradara (banyak nilai kosong)                   |
-| `cast`         | string    | Daftar pemeran utama                                   |
-| `country`      | string    | Negara tempat konten diproduksi                        |
-| `date_added`   | string    | Tanggal konten ditambahkan ke Netflix                  |
-| `release_year` | integer   | Tahun rilis                                            |
-| `rating`       | string    | Kategori usia (TV-MA, PG, dll.)                        |
-| `duration`     | string    | Durasi film (menit) atau jumlah season (untuk TV Show) |
-| `listed_in`    | string    | Genre atau kategori konten                             |
-| `description`  | string    | Deskripsi singkat konten                               |
+| Fitur          | Tipe Data | Keterangan                             |
+| -------------- | --------- | ---------------------------------------|
+| `show_id`      | string    | ID unik untuk tiap konten              |
+| `type`         | string    | Jenis konten: "Movie" atau "TV Show"   |
+| `title`        | string    | Judul konten                           |
+| `director`     | string    | Nama sutradara (banyak nilai kosong)   |
+| `cast`         | string    | Daftar pemeran utama                   |
+| `country`      | string    | Negara tempat konten diproduksi        |
+| `date_added`   | string    | Tanggal konten ditambahkan ke Netflix  |
+| `release_year` | integer   | Tahun rilis                            |
+| `rating`       | string    | Kategori usia (TV-MA, PG, dll.)        |
+| `duration`     | string    | Durasi film (menit) atau               |
+|                |           | jumlah season (untuk TV Show)          |
+| `listed_in`    | string    | Genre atau kategori konten             |
+| `description`  | string    | Deskripsi singkat konten               |
 
   - `show_id`: ID unik untuk tiap entri
   - `type`: jenis konten (Movie atau TV Show)
