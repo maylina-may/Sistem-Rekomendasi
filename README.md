@@ -61,7 +61,8 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 - **Jumlah data:** 8807 baris × 12 kolom
 
 - **Fitur:**
-| Fitur          | Tipe Data | Keterangan                             |
+
+|     Fitur      | Tipe Data |             Keterangan                 |
 | -------------- | --------- | ---------------------------------------|
 | `show_id`      | string    | ID unik untuk tiap konten              |
 | `type`         | string    | Jenis konten: "Movie" atau "TV Show"   |
