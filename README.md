@@ -40,13 +40,13 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 
 ### 🧠 Solution Approach
 
-- **Content-Based Filtering**
+**Content-Based Filtering**
 
 1. Menggunakan TF-IDF untuk merepresentasikan fitur teks seperti deskripsi, genre, pemeran, dan sutradara.
 2. Mengukur kemiripan antar film/acara TV menggunakan Cosine Similarity.
 3. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
 
-- **Collaborative Filtering (alternatif)**
+**Collaborative Filtering (alternatif)**
 1. Dapat dikembangkan menggunakan pendekatan Matrix Factorization seperti SVD, jika data interaksi pengguna tersedia.
 2. Mempersonalisasi rekomendasi berdasarkan pola preferensi pengguna lain yang serupa.
 
@@ -54,33 +54,43 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 
 ## 🗂️ Data Understanding
 
-**Sumber Data:** [Kaggle - Film dan Acara TV Netflix](https://www.kaggle.com/datasets/shivamb/netflix-shows)
-**Jumlah data:** 8807 baris × 12 kolom
-**Fitur (Kolom):**
-  - show_id: ID unik untuk tiap entri
-  - type: jenis konten (Movie atau TV Show)
-  - title: judul film/acara
+### Informasi Dataset
 
-director: sutradara
+- **Sumber Data:** [Kaggle - Film dan Acara TV Netflix](https://www.kaggle.com/datasets/shivamb/netflix-shows)
 
-cast: daftar pemeran
+- **Jumlah data:** 8807 baris × 12 kolom
 
-country: negara produksi
+- **Fitur:**
+  | Fitur          | Tipe Data | Keterangan                                             |
+| -------------- | --------- | ------------------------------------------------------ |
+| `show_id`      | string    | ID unik untuk tiap konten                              |
+| `type`         | string    | Jenis konten: "Movie" atau "TV Show"                   |
+| `title`        | string    | Judul konten                                           |
+| `director`     | string    | Nama sutradara (banyak nilai kosong)                   |
+| `cast`         | string    | Daftar pemeran utama                                   |
+| `country`      | string    | Negara tempat konten diproduksi                        |
+| `date_added`   | string    | Tanggal konten ditambahkan ke Netflix                  |
+| `release_year` | integer   | Tahun rilis                                            |
+| `rating`       | string    | Kategori usia (TV-MA, PG, dll.)                        |
+| `duration`     | string    | Durasi film (menit) atau jumlah season (untuk TV Show) |
+| `listed_in`    | string    | Genre atau kategori konten                             |
+| `description`  | string    | Deskripsi singkat konten                               |
 
-date_added: tanggal konten ditambahkan ke Netflix
+  - `show_id`: ID unik untuk tiap entri
+  - `type`: jenis konten (Movie atau TV Show)
+  - `title`: judul film/acara
+  - `director`: sutradara
+  - `cast`: daftar pemeran
+  - `country`: negara produksi
+  - `date_added`: tanggal konten ditambahkan ke Netflix
+  - `release_year`: tahun rilis
+  - `rating`: kategori usia (PG, TV-MA, dll.)
+  - `duration`: durasi dalam menit atau season
+  - `listed_in`: genre/kategori
+  - `description`: deskripsi singkat konten
 
-release_year: tahun rilis
+### Kondisi Data
 
-rating: kategori usia (PG, TV-MA, dll.)
-
-duration: durasi dalam menit atau season
-
-listed_in: genre/kategori
-
-description: deskripsi singkat konten
-
-
-  `title`, `type`, `director`, `cast`, `country`, `date_added`, `release_year`, `rating`, `duration`, `listed_in`, `description`
 - **Missing Values:**
   - `director`: 2634
   - `cast`: 825
