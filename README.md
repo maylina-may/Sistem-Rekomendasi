@@ -28,15 +28,13 @@ Dengan memanfaatkan teknik TF-IDF (Term Frequency–Inverse Document Frequency) 
 
 ### ❓ Problem Statements
 
-Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan acara TV) baru yang relevan dan sesuai dengan preferensi mereka di tengah banyaknya pilihan yang tersedia. Hal ini dapat mengurangi kepuasan pengguna dan tingkat keterlibatan di platform.
+1. Pengguna kesulitan menemukan konten (film/acara TV) yang relevan di Netflix karena banyaknya pilihan.
+2. Netflix memerlukan cara untuk memberikan rekomendasi konten yang dipersonalisasi kepada pengguna.
 
 ### 🎯 Goals
 
-1. Mengembangkan Sistem Rekomendasi: Membuat sistem rekomendasi yang mampu mengusulkan film atau acara TV baru kepada pengguna.
-2. Menerapkan Pendekatan Content-Based Filtering: Menggunakan teknik content-based filtering untuk merekomendasikan konten berdasarkan kemiripan fitur-fitur dari konten itu sendiri.
-3. Menggunakan TF-IDF dan Cosine Similarity: Memanfaatkan TF-IDF untuk merepresentasikan genre secara numerik dan Cosine Similarity untuk mengukur kemiripan antar item (film/acara TV).
-4. Memberikan Rekomendasi yang Relevan: Menghasilkan daftar rekomendasi konten yang secara genre mirip dengan konten yang diminati oleh pengguna.
-5. Meningkatkan Pengalaman Pengguna: Dengan memberikan rekomendasi yang relevan, sistem ini bertujuan untuk meningkatkan pengalaman pengguna dalam menemukan konten baru dan mempertahankan keterlibatan mereka di platform.
+1. Membangun sistem rekomendasi berbasis konten yang dapat mengusulkan film atau acara TV berdasarkan kemiripan genre.
+2. Mengembangkan fungsi yang dapat memberikan daftar rekomendasi teratas berdasarkan sebuah konten input dan mengevaluasinya.
 
 ### 🧠 Solution Approach
 
@@ -47,6 +45,7 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 3. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
 
 **Collaborative Filtering (alternatif)**
+
 1. Dapat dikembangkan menggunakan pendekatan Matrix Factorization seperti SVD, jika data interaksi pengguna tersedia.
 2. Mempersonalisasi rekomendasi berdasarkan pola preferensi pengguna lain yang serupa.
 
@@ -141,22 +140,19 @@ Melakukan ekstrasi fitur menggunakan teknik TF-IDF Vectorizer pada fitur teks "l
 ## ⏳ Modeling
 
 - **Representasi Fitur:** Menggunakan `TF-IDF Vectorizer` mengubah genre teks menjadi vektor numerik.
-- **Algoritma Similarity:** Menggunakan `Cosine Similarity` untuk mengukur kemiripan antar konten berdasarkan vektor genre.
+- **Algoritma Similarity:** Cosine similarity diterapkan untuk menilai sejauh mana dua film memiliki kemiripan genre, dengan memanfaatkan representasi vektor TF-IDF dan DataFrame sebagai alat visualisasi tingkat kemiripan tersebut.
 - **Mekanisme Rekomendasi:** Mengambil Top-N konten paling mirip berdasarkan skor similarity untuk rekomendasi.
-- ## 🔥 Kelebihan & Kekurangan
 
-### 👍 Kelebihan:
+- **Kelebihan & Kekurangan**
+  - Kelebihan:
+    1. Bagus untuk pengguna dan item baru (cold-start).
+    2. Rekomendasi dapat dijelaskan (mengapa item itu direkomendasikan).
+    3. Tidak memerlukan data pengguna lain (privasi terjaga).
 
-- Tidak butuh data pengguna (bagus untuk pengguna/item baru).
-- Rekomendasi spesifik berdasarkan item.
-- Penjelasan rekomendasi mudah.
-- Cepat setelah matriks dibuat.
-
-### 👎 Kekurangan:
-- Rekomendasi cenderung mirip, kurang variasi.
-- Butuh deskripsi item yang baik (genre akurat).
-- Item baru tidak langsung direkomendasikan.
-- Skalabilitas terbatas untuk data sangat besar.
+  - Kekurangan:
+    1. Cenderung merekomendasikan item yang sangat mirip (over-specialization).
+    2. Tidak belajar dari perilaku atau preferensi pengguna lain.
+    3. Bergantung pada kualitas deskripsi konten yang digunakan.
 
 ### 📌 Contoh hasil Rekomendasi untuk `Holiday Rush`:
 
@@ -179,5 +175,25 @@ Melakukan ekstrasi fitur menggunakan teknik TF-IDF Vectorizer pada fitur teks "l
 - **Metode evaluasi:** Precision@k
 - **Hasil:** Dengan threshold kemiripan 0.5, semua 10 rekomendasi teratas untuk `Holiday Rush` dianggap relevan berdasarkan kemiripan genre.
 - **Precision@10:** 100% (nilai Precision@10 yang didapat dari output kode)
- CATATAN : jelaskan hubungan dengan business understanding
+
+###  Hasil Evaluasi terhadap Business Understanding
+
+Problem Statement 1:
+
+Terjawab: Dengan memanfaatkan pendekatan content-based filtering berbasis genre (`listed_in`), sistem berhasil menyaring dan merekomendasikan konten yang memiliki kemiripan dengan tayangan pilihan pengguna. Hal ini secara langsung membantu pengguna mengurangi beban dalam memilah ribuan konten, sehingga mempermudah proses pengambilan keputusan.
+
+Goal 1:
+
+Tercapai: Sistem rekomendasi berhasil dibangun menggunakan TF-IDF dan Cosine Similarity untuk fitur genre. Hasil Precision@10 menunjukkan bahwa rekomendasi yang dihasilkan sangat relevan (100% untuk studi kasus Holiday Rush), yang menunjukkan keberhasilan sistem dalam mengusulkan konten serupa.
+
+Problem Statement 2:
+
+Terjawab: Sistem yang dibangun telah memberikan rekomendasi berdasarkan kemiripan konten, **tanpa menggunakan data pengguna lain**. Meskipun belum sepenuhnya personal seperti collaborative filtering, pendekatan ini tetap memberikan kesan personalisasi karena merekomendasikan konten serupa dengan yang sedang/baru saja ditonton pengguna. Ini menjadikannya solusi efektif dalam situasi cold-start.
+
+Goal 2:
+
+Tercapai: Fungsi rekomendasi telah dikembangkan dan mampu memberikan daftar rekomendasi teratas berdasarkan input judul. Evaluasi menggunakan Precision@10 memperlihatkan bahwa semua rekomendasi yang diberikan memiliki genre yang sangat mirip dengan input, membuktikan efektivitas model.
+
+Dampak dari Solution Approach: Pendekatan ini memberi solusi yang cepat dan ringan dalam menyajikan rekomendasi relevan tanpa ketergantungan pada data pengguna. Ini bermanfaat bagi pengguna baru dan mempercepat content discovery di platform, yang pada akhirnya bisa meningkatkan **engagement**, **waktu tonton**, dan **retensi pelanggan Netflix**.
+
 ---
