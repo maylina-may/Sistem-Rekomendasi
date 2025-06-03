@@ -58,9 +58,9 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 
 - **Sumber Data:** [Kaggle - Film dan Acara TV Netflix](https://www.kaggle.com/datasets/shivamb/netflix-shows)
 
-- **Jumlah data:** 8807 baris × 12 kolom
+- **Ukuran Dataset:** 8807 baris × 12 kolom
 
-- **Fitur:**
+- **Deskripsi Fitur:**
 
 |     Fitur      | Tipe Data |             Keterangan                 |
 | -------------- | --------- | ---------------------------------------|
@@ -78,36 +78,58 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 | `listed_in`    | string    | Genre atau kategori konten             |
 | `description`  | string    | Deskripsi singkat konten               |
 
-  - `show_id`: ID unik untuk tiap entri
-  - `type`: jenis konten (Movie atau TV Show)
-  - `title`: judul film/acara
-  - `director`: sutradara
-  - `cast`: daftar pemeran
-  - `country`: negara produksi
-  - `date_added`: tanggal konten ditambahkan ke Netflix
-  - `release_year`: tahun rilis
-  - `rating`: kategori usia (PG, TV-MA, dll.)
-  - `duration`: durasi dalam menit atau season
-  - `listed_in`: genre/kategori
-  - `description`: deskripsi singkat konten
-
 ### Kondisi Data
 
 - **Missing Values:**
-  - `director`: 2634
-  - `cast`: 825
-  - `country`: 831
-  - `date_added`: 11
-  - `rating`: 4
+
+| Fitur        | Jumlah Kosong | 
+| ------------ | ------------- | 
+| `director`   | 2634          |
+| `cast`       | 825           | 
+| `country`    | 831           | 
+| `date_added` | 11            | 
+| `rating`     | 4             |
+
+### Outlier
+
+Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak terdapat nilai ekstrem yang mengganggu.
+
+### Duplikasi
+
+ Tidak ditemukan duplikasi berdasarkan kombinasi `title` dan `release_year`.
+
+### Penggunaan Fitur
+
+- **Digunakan dalam modeling:**
+  - `listed_in`: Kolom ini **digunakan secara langsung** untuk membangun model rekomendasi melalui TF-IDF Vectorizer dan perhitungan Cosine Similarity.
+
+- **Tidak digunakan langsung dalam modeling:**
+  - `description`: Meskipun berisi teks, kolom ini **tidak** digunakan dalam model rekomendasi saat ini.
+  - `director`: Kolom ini **tidak** digunakan dalam model rekomendasi saat ini.
+  - `cast`: Kolom ini **tidak** digunakan dalam model rekomendasi saat ini.
+  - `country`, `release_year`, `date_added`, `duration`, `show_id`, `rating`: Kolom-kolom ini **tidak** digunakan dalam pendekatan content-based yang diterapkan di sini.
 
 ---
 
 ## 🧹 Data Preparation
 
-- Nilai kosong dihapus dengan `df.dropna()`.
-- Pengecekan ulang missing value menggunakan `df.isna().sum()`.
-- Fitur teks pada kolom `listed_in` diekstrak dan dibobot menggunakan **TF-IDF Vectorizer**.
+### Menghapus Baris Kosong
 
+- Data yang memiliki missing value dihapus menggunakan `dropna()`. 
+- Verifikasi jumlah missing value dilakukan dengan df.isna().sum().
+
+### Penggabungan Fitur Teks
+
+- Fitur `listed_in`, `description`, `cast`, dan `director` digabung menjadi satu string untuk merepresentasikan karakteristik konten secara menyeluruh
+
+```
+df['features'] = df['listed_in'] + ' ' + df['description'] + ' ' + df['cast'] + ' ' + df['director']
+```
+
+### TF-IDF Vectorization
+
+- Fitur teks diubah menjadi vektor numerik menggunakan TfidfVectorizer.
+- 
 ---
 
 ## ⏳ Modeling
