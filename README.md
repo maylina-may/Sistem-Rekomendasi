@@ -86,11 +86,11 @@ Dengan memanfaatkan teknik TF-IDF (Term Frequency–Inverse Document Frequency) 
 | `date_added` | 11            | 
 | `rating`     | 4             |
 
-### Outlier
+- **Outlier:**
 
 Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak terdapat nilai ekstrem yang mengganggu.
 
-### Duplikasi
+- **Duplikasi:**
 
  Tidak ditemukan duplikasi
 
