@@ -42,9 +42,10 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 
 **Content-Based Filtering**
 
-1. Menggunakan TF-IDF untuk merepresentasikan fitur teks seperti deskripsi, genre, pemeran, dan sutradara.
-2. Mengukur kemiripan antar film/acara TV menggunakan Cosine Similarity.
-3. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
+1. Menggabungkan metadata konten (`genre`, `description`, `cast`, `director`)
+2. Merepresentasikan teks dengan TF-IDF Vectorizer
+3. Mengukur kemiripan dengan Cosine Similarity
+4. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
 
 **Collaborative Filtering (alternatif)**
 1. Dapat dikembangkan menggunakan pendekatan Matrix Factorization seperti SVD, jika data interaksi pengguna tersedia.
@@ -73,8 +74,7 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 | `date_added`   | string    | Tanggal konten ditambahkan ke Netflix  |
 | `release_year` | integer   | Tahun rilis                            |
 | `rating`       | string    | Kategori usia (TV-MA, PG, dll.)        |
-| `duration`     | string    | Durasi film (menit) atau               |
-|                |           | jumlah season (untuk TV Show)          |
+| `duration`     | string    | Durasi film (menit)                    |
 | `listed_in`    | string    | Genre atau kategori konten             |
 | `description`  | string    | Deskripsi singkat konten               |
 
@@ -98,16 +98,32 @@ Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak t
 
  Tidak ditemukan duplikasi berdasarkan kombinasi `title` dan `release_year`.
 
-### Penggunaan Fitur
+### Penggunaan Fitur dalam Modeling
 
-- **Digunakan dalam modeling:**
-  - `listed_in`: Kolom ini **digunakan secara langsung** untuk membangun model rekomendasi melalui TF-IDF Vectorizer dan perhitungan Cosine Similarity.
+- **Fitur yang Digunakan:**
 
-- **Tidak digunakan langsung dalam modeling:**
-  - `description`: Meskipun berisi teks, kolom ini **tidak** digunakan dalam model rekomendasi saat ini.
-  - `director`: Kolom ini **tidak** digunakan dalam model rekomendasi saat ini.
-  - `cast`: Kolom ini **tidak** digunakan dalam model rekomendasi saat ini.
-  - `country`, `release_year`, `date_added`, `duration`, `show_id`, `rating`: Kolom-kolom ini **tidak** digunakan dalam pendekatan content-based yang diterapkan di sini.
+`listed_in`: Kolom ini digunakan secara langsung sebagai input ke `TfidfVectorizer`, yang mengubah teks genre menjadi vektor numerik. Matriks TF-IDF inilah yang digunakan dalam perhitungan Cosine Similarity untuk menentukan kemiripan antar konten.
+  - Alur Model
+    - TF-IDF Vectorizer hanya diaplikasikan ke kolom listed_in.
+      ```
+      tfidf = TfidfVectorizer
+      tfidf_matrix = tfidf.fit_transform(df['listed_in'])
+      ```
+    - Matriks hasil transformasi digunakan untuk menghitung Cosine Similarity antar konten.
+    - Rekomendasi dihasilkan berdasarkan nilai similarity tertinggi.
+
+- **Fitur yang Tidak Digunakan:**
+| Fitur              | Alasan Tidak Digunakan                                                         |
+|--------------------|--------------------------------------------------------------------------------|
+| `description`      | Meskipun informatif, **tidak digunakan dalam TF-IDF** pada kode aktual         |
+| `cast`, `director` | Tidak dimasukkan ke dalam proses modeling                                      | 
+| `country`          | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) | 
+| `date_added`       | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) | 
+| `release_year`     | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) |
+| `duration`         | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) |
+| `rating`           | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) |
+| `show_id`          | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) |
+| `type`             | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) |
 
 ---
 
@@ -120,10 +136,10 @@ Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak t
 
 ### Penggabungan Fitur Teks
 
-- Fitur `listed_in`, `description`, `cast`, dan `director` digabung menjadi satu string untuk merepresentasikan karakteristik konten secara menyeluruh
+- Fitur `listed_in`, `description`, `cast`, dan `director` digabung menjadi satu kolom baru `features`, yang berfungsi sebagai representasi konten secara keseluruhan.
 
 ```
-df['features'] = df['listed_in'] + ' ' + df['description'] + ' ' + df['cast'] + ' ' + df['director']
+df['features'] = df['listed_in'] + ' ' + df['description'] + df['cast'] + ' ' + df['director']
 ```
 
 ### TF-IDF Vectorization
