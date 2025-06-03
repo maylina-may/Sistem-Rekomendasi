@@ -54,9 +54,33 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 
 ## 🗂️ Data Understanding
 
-- **Sumber Data:** [Kaggle - Film dan Acara TV Netflix](https://www.kaggle.com/datasets/shivamb/netflix-shows)
-- **Jumlah data:** 8807 baris × 12 kolom
-- **Kolom penting:** `title`, `type`, `director`, `cast`, `country`, `date_added`, `release_year`, `rating`, `duration`, `listed_in`, `description`
+**Sumber Data:** [Kaggle - Film dan Acara TV Netflix](https://www.kaggle.com/datasets/shivamb/netflix-shows)
+**Jumlah data:** 8807 baris × 12 kolom
+**Fitur (Kolom):**
+  - show_id: ID unik untuk tiap entri
+  - type: jenis konten (Movie atau TV Show)
+  - title: judul film/acara
+
+director: sutradara
+
+cast: daftar pemeran
+
+country: negara produksi
+
+date_added: tanggal konten ditambahkan ke Netflix
+
+release_year: tahun rilis
+
+rating: kategori usia (PG, TV-MA, dll.)
+
+duration: durasi dalam menit atau season
+
+listed_in: genre/kategori
+
+description: deskripsi singkat konten
+
+
+  `title`, `type`, `director`, `cast`, `country`, `date_added`, `release_year`, `rating`, `duration`, `listed_in`, `description`
 - **Missing Values:**
   - `director`: 2634
   - `cast`: 825
