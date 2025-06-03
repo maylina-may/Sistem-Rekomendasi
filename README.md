@@ -42,10 +42,9 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 
 **Content-Based Filtering**
 
-1. Menggabungkan metadata konten (`genre`, `description`, `cast`, `director`)
-2. Merepresentasikan teks dengan TF-IDF Vectorizer
-3. Mengukur kemiripan dengan Cosine Similarity
-4. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
+1. Merepresentasikan teks dengan TF-IDF Vectorizer
+2. Mengukur kemiripan dengan Cosine Similarity
+3. Memberikan rekomendasi berdasarkan item yang memiliki atribut konten yang serupa.
 
 **Collaborative Filtering (alternatif)**
 1. Dapat dikembangkan menggunakan pendekatan Matrix Factorization seperti SVD, jika data interaksi pengguna tersedia.
@@ -58,9 +57,7 @@ Pengguna platform streaming seperti Netflix kesulitan menemukan konten (film dan
 ### Informasi Dataset
 
 - **Sumber Data:** [Kaggle - Film dan Acara TV Netflix](https://www.kaggle.com/datasets/shivamb/netflix-shows)
-
 - **Ukuran Dataset:** 8807 baris × 12 kolom
-
 - **Deskripsi Fitur:**
 
 |     Fitur      | Tipe Data |             Keterangan                 |
@@ -96,7 +93,7 @@ Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak t
 
 ### Duplikasi
 
- Tidak ditemukan duplikasi berdasarkan kombinasi `title` dan `release_year`.
+ Tidak ditemukan duplikasi
 
 ### Penggunaan Fitur dalam Modeling
 
@@ -113,10 +110,11 @@ Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak t
     - Rekomendasi dihasilkan berdasarkan nilai similarity tertinggi.
 
 - **Fitur yang Tidak Digunakan:**
-| Fitur              | Alasan Tidak Digunakan                                                         |
-|--------------------|--------------------------------------------------------------------------------|
-| `description`      | Meskipun informatif, **tidak digunakan dalam TF-IDF** pada kode aktual         |
-| `cast`, `director` | Tidak dimasukkan ke dalam proses modeling                                      | 
+
+| Fitur              | Alasan Tidak Digunakan                                                            |
+|--------------------|-----------------------------------------------------------------------------------|
+| `description`      | Meskipun informatif, **tidak digunakan dalam TF-IDF** pada kode aktual            |
+| `cast`, `director` | Tidak dimasukkan ke dalam proses modeling                                         | 
 | `country`          | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) | 
 | `date_added`       | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) | 
 | `release_year`     | Tidak relevan untuk pendekatan content-based berbasis teks genre (`listed_in`) |
@@ -129,23 +127,15 @@ Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak t
 
 ## 🧹 Data Preparation
 
-### Menghapus Baris Kosong
+### Menangani Missing Value 
 
 - Data yang memiliki missing value dihapus menggunakan `dropna()`. 
 - Verifikasi jumlah missing value dilakukan dengan df.isna().sum().
 
-### Penggabungan Fitur Teks
-
-- Fitur `listed_in`, `description`, `cast`, dan `director` digabung menjadi satu kolom baru `features`, yang berfungsi sebagai representasi konten secara keseluruhan.
-
-```
-df['features'] = df['listed_in'] + ' ' + df['description'] + df['cast'] + ' ' + df['director']
-```
-
 ### TF-IDF Vectorization
 
-- Fitur teks diubah menjadi vektor numerik menggunakan TfidfVectorizer.
-- 
+Melakukan ekstrasi fitur menggunakan teknik TF-IDF Vectorizer pada fitur teks "listed_in", proses ini digunakan untuk mengubah data teks menjadi representasi numerik yang mencerminkan pentingnya suatu kata dalam konteks dokumen, sehingga dapat digunakan dalam pemodelan.
+
 ---
 
 ## ⏳ Modeling
@@ -153,6 +143,20 @@ df['features'] = df['listed_in'] + ' ' + df['description'] + df['cast'] + ' ' + 
 - **Representasi Fitur:** Menggunakan `TF-IDF Vectorizer` mengubah genre teks menjadi vektor numerik.
 - **Algoritma Similarity:** Menggunakan `Cosine Similarity` untuk mengukur kemiripan antar konten berdasarkan vektor genre.
 - **Mekanisme Rekomendasi:** Mengambil Top-N konten paling mirip berdasarkan skor similarity untuk rekomendasi.
+- ## 🔥 Kelebihan & Kekurangan
+
+### 👍 Kelebihan:
+
+- Tidak butuh data pengguna (bagus untuk pengguna/item baru).
+- Rekomendasi spesifik berdasarkan item.
+- Penjelasan rekomendasi mudah.
+- Cepat setelah matriks dibuat.
+
+### 👎 Kekurangan:
+- Rekomendasi cenderung mirip, kurang variasi.
+- Butuh deskripsi item yang baik (genre akurat).
+- Item baru tidak langsung direkomendasikan.
+- Skalabilitas terbatas untuk data sangat besar.
 
 ### 📌 Contoh hasil Rekomendasi untuk `Holiday Rush`:
 
@@ -175,22 +179,5 @@ df['features'] = df['listed_in'] + ' ' + df['description'] + df['cast'] + ' ' + 
 - **Metode evaluasi:** Precision@k
 - **Hasil:** Dengan threshold kemiripan 0.5, semua 10 rekomendasi teratas untuk `Holiday Rush` dianggap relevan berdasarkan kemiripan genre.
 - **Precision@10:** 100% (nilai Precision@10 yang didapat dari output kode)
-
----
-
-## 🔥 Kelebihan & Kekurangan
-
-### 👍 Kelebihan:
-
-- Tidak butuh data pengguna (bagus untuk pengguna/item baru).
-- Rekomendasi spesifik berdasarkan item.
-- Penjelasan rekomendasi mudah.
-- Cepat setelah matriks dibuat.
-
-### 👎 Kekurangan:
-- Rekomendasi cenderung mirip, kurang variasi.
-- Butuh deskripsi item yang baik (genre akurat).
-- Item baru tidak langsung direkomendasikan.
-- Skalabilitas terbatas untuk data sangat besar.
-
+ CATATAN : jelaskan hubungan dengan business understanding
 ---
