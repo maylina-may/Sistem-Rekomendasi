@@ -83,7 +83,7 @@ Dengan memanfaatkan teknik TF-IDF (Term Frequency–Inverse Document Frequency) 
 | `director`   | 2634          |
 | `cast`       | 825           | 
 | `country`    | 831           | 
-| `date_added` | 11            | 
+| `date_added` | 10            | 
 | `rating`     | 4             |
 
 - **Outlier:** Tidak relevan karena fitur numerik (durasi) disimpan sebagai string, dan tidak terdapat nilai ekstrem yang mengganggu.
